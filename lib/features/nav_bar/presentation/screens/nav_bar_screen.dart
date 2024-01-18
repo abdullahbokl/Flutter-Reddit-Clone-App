@@ -2,12 +2,12 @@ import 'package:bottom_nav_bar/persistent-tab-view.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:reddit_clone/core/utils/app_dimensions.dart';
-import 'package:reddit_clone/core/utils/app_styles.dart';
-import 'package:reddit_clone/core/utils/locale_keys.g.dart';
 
 import '../../../../core/common/models/screen_model.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_dimensions.dart';
+import '../../../../core/utils/app_styles.dart';
+import '../../../../core/utils/locale_keys.g.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../settings/presentation/screens/settings_screen.dart';
 import '../../../stars/presentation/screens/favorite_screen.dart';

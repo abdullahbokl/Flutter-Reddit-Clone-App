@@ -1,7 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:reddit_clone/core/common/widgets/custom_app_bar.dart';
 
-import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/locale_keys.g.dart';
 import '../widgets/language_setting.dart';
 import '../widgets/theme_setting.dart';
@@ -11,16 +10,11 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Builder(builder: (context) {
-          return Text(
-            LocaleKeys.settings.tr(context: context),
-            style: AppStyles.font24SatoshiW700(context),
-          );
-        }),
+    return const Scaffold(
+      appBar: CustomAppBar(
+        title: LocaleKeys.settings,
       ),
-      body: const Column(
+      body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(height: 10),

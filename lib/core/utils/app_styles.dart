@@ -79,6 +79,14 @@ abstract class AppStyles {
     );
   }
 
+  static TextStyle font28SatoshiW700(BuildContext context) {
+    return generateTextStyle(
+      context,
+      fontSize: 28,
+      fontWeight: FontWeight.w800,
+    );
+  }
+
   static TextStyle font32SatoshiW900(BuildContext context) {
     return generateTextStyle(
       context,
