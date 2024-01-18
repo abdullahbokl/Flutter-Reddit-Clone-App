@@ -1,11 +1,13 @@
 import 'package:bottom_nav_bar/persistent-tab-view.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:reddit_clone/core/utils/app_dimensions.dart';
+import 'package:reddit_clone/core/utils/app_styles.dart';
+import 'package:reddit_clone/core/utils/locale_keys.g.dart';
 
-import '../../../../core/common/blocs_cubits/theme/theme_cubit.dart';
 import '../../../../core/common/models/screen_model.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/service_locator.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../settings/presentation/screens/settings_screen.dart';
 import '../../../stars/presentation/screens/favorite_screen.dart';
@@ -22,17 +24,17 @@ class _NavBarScreenState extends State<NavBarScreen> {
       PersistentTabController(initialIndex: 0);
   final List<ScreenModel> screens = [
     ScreenModel(
-      title: 'Home',
+      title: LocaleKeys.home,
       screen: const HomeScreen(),
       icon: CupertinoIcons.home,
     ),
     ScreenModel(
-      title: 'Favorite',
+      title: LocaleKeys.favorites,
       screen: const FavoriteScreen(),
       icon: CupertinoIcons.heart_fill,
     ),
     ScreenModel(
-      title: 'Settings',
+      title: LocaleKeys.settings,
       screen: const SettingsScreen(),
       icon: CupertinoIcons.settings,
     ),
@@ -40,7 +42,6 @@ class _NavBarScreenState extends State<NavBarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = getIt<ThemeCubit>().themeMode;
     return Center(
       child: PersistentTabView(
         context,
@@ -49,14 +50,14 @@ class _NavBarScreenState extends State<NavBarScreen> {
         items: screens.map((e) {
           return _navBarItem(e.title, e.icon);
         }).toList(),
+        navBarHeight: 58,
         confineInSafeArea: true,
         handleAndroidBackButtonPress: true,
         resizeToAvoidBottomInset: true,
         hideNavigationBarWhenKeyboardShows: true,
         popAllScreensOnTapOfSelectedTab: true,
-        backgroundColor: theme.name == ThemeMode.light.toString()
-            ? AppColors.lightPrimaryColor
-            : AppColors.darkPrimaryColor,
+        backgroundColor:
+            Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
         navBarStyle: NavBarStyle.style6,
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
@@ -82,10 +83,11 @@ class _NavBarScreenState extends State<NavBarScreen> {
   ) {
     return PersistentBottomNavBarItem(
       inactiveColorPrimary: Colors.grey.shade600,
-      iconSize: 20,
+      iconSize: AppDimensions.getResponsiveIconSize(context, iconSize: 26),
       icon: Icon(icon),
       activeColorPrimary: Colors.redAccent,
-      title: title,
+      title: title.tr(context: context),
+      textStyle: AppStyles.font16SatoshiBold(context),
     );
   }
 }

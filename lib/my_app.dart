@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/common/blocs_cubits/theme/theme_cubit.dart';
 import 'core/common/widgets/adaptive_layout_widget.dart';
 import 'core/common/widgets/errors/no_internet_widget.dart';
-import 'core/utils/app_theme.dart';
+import 'core/config/app_theme.dart';
+import 'core/config/size_config.dart';
 import 'features/nav_bar/presentation/screens/nav_bar_screen.dart';
 
 class MyApp extends StatelessWidget {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig.init(context);
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
         return ConnectivityAppWrapper(

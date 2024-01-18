@@ -1,3 +1,11 @@
 {
-  "welcome": "Welcome"
+  "welcome": "Welcome",
+  "changeTheme": "Change Theme",
+  "settings": "Settings",
+  "dark": "Dark",
+  "light": "Light",
+  "theme": "Theme",
+  "language": "Language",
+  "home": "Home",
+  "favorites": "Favorites"
 }

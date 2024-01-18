@@ -8,6 +8,7 @@ abstract class AppColors {
   static const Color lightOnPrimaryColor = Color(0xFF000000);
   static const Color lightOnSecondaryColor = Color(0xFF000000);
   static const Color lightBackgroundColor = Color(0xFFFFFFFF);
+  static const Color lightCardColor = Color(0xFFBDBDBD);
 
   // dark theme colors
   static const Color darkPrimaryColor = Color(0xFF121212);
@@ -16,6 +17,7 @@ abstract class AppColors {
   static const Color darkOnPrimaryColor = Color(0xFFFFFFFF);
   static const Color darkOnSecondaryColor = Color(0xFFFFFFFF);
   static const Color darkBackgroundColor = Color(0xFF000000);
+  static const Color darkCardColor = Color(0xFF1E1E1E);
 
   // common colors
   static const Color errorColor = Color(0xFFCF6679);

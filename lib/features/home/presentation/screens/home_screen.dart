@@ -9,25 +9,15 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Builder(builder: (context) {
+          return Text(
+            LocaleKeys.home.tr(context: context),
+          );
+        }),
+      ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(child: const Text(LocaleKeys.welcome).tr()),
-            //   button to change language
-            ElevatedButton(
-              onPressed: () {
-                if (context.locale == const Locale('ar')) {
-                  context.setLocale(const Locale('en'));
-                } else {
-                  context.setLocale(const Locale('ar'));
-                }
-              },
-              child: const Text('change_language').tr(),
-            ),
-          ],
-        ),
+        child: Text(LocaleKeys.home.tr(context: context)),
       ),
     );
   }
