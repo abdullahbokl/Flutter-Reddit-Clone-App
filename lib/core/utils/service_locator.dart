@@ -1,7 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../features/nav_bar/presentation/blocs_cubits/nav_bar_cubit.dart';
 import '../common/blocs_cubits/theme/theme_cubit.dart';
 import '../services/cache_services/cache_services.dart';
 import '../services/cache_services/prefs_consumer.dart';
@@ -24,5 +23,4 @@ Future<void> initServiceLocator() async {
 
   // cubits
   getIt.registerSingleton<ThemeCubit>(ThemeCubit()..getCachedTheme());
-  getIt.registerLazySingleton<NavBarCubit>(() => NavBarCubit());
 }

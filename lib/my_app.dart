@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
       builder: (context, state) {
         return ConnectivityAppWrapper(
           app: MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: AppTheme.getTheme(),
             title: 'Flutter Demo',
             home: Scaffold(
