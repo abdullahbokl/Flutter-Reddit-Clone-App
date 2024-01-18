@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64460280761",
+    "project_id": "flutter-reddit-boklo-app",
+    "storage_bucket": "flutter-reddit-boklo-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64460280761:android:320ee4c4827fdbb8ce5c68",
+        "android_client_info": {
+          "package_name": "com.clone_reddit.reddit_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAbF30qDlOMVKmssKgTkWecUp7UyjGk5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
