@@ -1,1 +1,3 @@
-enum ThemeModes { light, dark }
+enum ThemeModesEnum { light, dark }
+
+enum ConnectivityStatusEnum { connected, disconnected, loading }

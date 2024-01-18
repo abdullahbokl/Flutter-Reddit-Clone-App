@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../errors/cache_exceptions.dart';
+import '../../errors/cache_exceptions.dart';
 import 'cache_services.dart';
 
 class PrefsConsumer extends CacheServices {

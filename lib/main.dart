@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/common/blocs_cubits/bloc_observer.dart';
 import 'core/common/blocs_cubits/theme/theme_cubit.dart';
-import 'core/common/widgets/custom_error_widget.dart';
+import 'core/common/widgets/errors/custom_error_widget.dart';
 import 'core/utils/service_locator.dart';
 import 'firebase_options.dart';
 import 'my_app.dart';
@@ -18,14 +18,14 @@ Future<void> main() async {
   };
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create: (context) => getIt<ThemeCubit>()..getCachedTheme()),
+      BlocProvider(create: (context) => getIt<ThemeCubit>()),
     ],
     child: const MyApp(),
   ));
 }
 
 Future<void> _setupApp() async {
+  Bloc.observer = MyBlocObserver();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initServiceLocator();
-  Bloc.observer = MyBlocObserver();
 }
