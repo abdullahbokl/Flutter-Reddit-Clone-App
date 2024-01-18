@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:reddit_clone/core/utils/app_styles.dart';
+
+import '../../../../core/utils/app_styles.dart';
 
 class SettingCard extends StatelessWidget {
   const SettingCard({
@@ -26,8 +28,8 @@ class SettingCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
-              style: AppStyles.font20SatoshiW500(context),
+              title.tr(context: context),
+              style: AppStyles.font24SatoshiW700(context),
             ),
             widget,
           ],

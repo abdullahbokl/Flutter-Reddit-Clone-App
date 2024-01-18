@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'app_assets.dart';
-import 'app_colors.dart';
 import 'app_dimensions.dart';
 
 abstract class AppStyles {
@@ -25,9 +24,6 @@ abstract class AppStyles {
       fontFamily: fontFamily,
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: MediaQuery.of(context).platformBrightness == Brightness.light
-          ? AppColors.darkOnPrimaryColor
-          : AppColors.lightOnPrimaryColor,
     );
   }
 

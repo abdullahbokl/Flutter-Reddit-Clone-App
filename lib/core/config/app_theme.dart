@@ -14,42 +14,42 @@ abstract class AppTheme {
     return darkTheme;
   }
 
-  static ThemeData get lightTheme => ThemeData(
-        brightness: Brightness.light,
-        colorScheme: const ColorScheme.light(
-          primary: AppColors.lightPrimaryColor,
-          secondary: AppColors.lightSecondaryColor,
-          background: AppColors.lightBackgroundColor,
-          surface: AppColors.surfaceColor,
-          onPrimary: AppColors.onPrimaryColor,
-          onSecondary: AppColors.onSecondaryColor,
-          onBackground: AppColors.onBackgroundColor,
-          onSurface: AppColors.onSurfaceColor,
-          error: AppColors.errorColor,
-          brightness: Brightness.light,
-        ),
-        cardTheme: _cardTheme().copyWith(
-          color: AppColors.lightCardColor,
-        ),
-        switchTheme: SwitchThemeData(
-          thumbColor: MaterialStateProperty.all<Color>(
-            AppColors.lightOnPrimaryColor,
-          ),
-          trackColor: MaterialStateProperty.all<Color>(
-            Colors.grey.shade300,
-          ),
-        ),
-        appBarTheme: const AppBarTheme(
-          color: AppColors.lightPrimaryColor,
-          iconTheme: IconThemeData(color: AppColors.lightOnPrimaryColor),
-          foregroundColor: AppColors.lightOnPrimaryColor,
-        ),
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: AppColors.lightPrimaryColor,
-          selectedItemColor: AppColors.lightOnPrimaryColor,
-          unselectedItemColor: AppColors.lightPrimaryVariantColor,
-        ),
-      );
+  static final ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
+    colorScheme: const ColorScheme.light(
+      primary: AppColors.lightPrimaryColor,
+      secondary: AppColors.lightSecondaryColor,
+      background: AppColors.lightBackgroundColor,
+      surface: AppColors.surfaceColor,
+      onPrimary: AppColors.onPrimaryColor,
+      onSecondary: AppColors.onSecondaryColor,
+      onBackground: AppColors.onBackgroundColor,
+      onSurface: AppColors.onSurfaceColor,
+      error: AppColors.errorColor,
+      brightness: Brightness.light,
+    ),
+    cardTheme: _cardTheme().copyWith(
+      color: AppColors.lightCardColor,
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.all<Color>(
+        AppColors.lightOnPrimaryColor,
+      ),
+      trackColor: MaterialStateProperty.all<Color>(
+        Colors.grey.shade300,
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      color: AppColors.lightPrimaryColor,
+      iconTheme: IconThemeData(color: AppColors.lightOnPrimaryColor),
+      foregroundColor: AppColors.lightOnPrimaryColor,
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: AppColors.lightPrimaryColor,
+      selectedItemColor: AppColors.lightOnPrimaryColor,
+      unselectedItemColor: AppColors.lightPrimaryVariantColor,
+    ),
+  );
 
   static CardTheme _cardTheme() {
     return const CardTheme(
