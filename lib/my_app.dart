@@ -1,4 +1,5 @@
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,8 +19,11 @@ class MyApp extends StatelessWidget {
         return ConnectivityAppWrapper(
           app: MaterialApp(
             debugShowCheckedModeBanner: false,
+            title: 'Reddit Clone',
             theme: AppTheme.getTheme(),
-            title: 'Flutter Demo',
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
             home: Scaffold(
               body: ConnectivityWidgetWrapper(
                 disableInteraction: true,
