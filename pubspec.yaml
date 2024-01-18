@@ -25,6 +25,9 @@ dependencies:
   connectivity_plus: ^5.0.2
   flutter_spinkit: ^5.2.0
   connectivity_wrapper: ^1.1.4
+  bottom_nav_bar:
+    git:
+      url: https://github.com/Ansh-Rathod/bottom_nav_bar
 
 dev_dependencies:
   flutter_test:

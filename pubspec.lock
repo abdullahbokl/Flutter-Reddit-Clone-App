@@ -33,6 +33,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bottom_nav_bar:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: fa6256b4ad16ea8b93fb1d9aefdc2c17f70306b4
+      url: "https://github.com/Ansh-Rathod/bottom_nav_bar"
+    source: git
+    version: "1.0.0+1"
   characters:
     dependency: transitive
     description:
