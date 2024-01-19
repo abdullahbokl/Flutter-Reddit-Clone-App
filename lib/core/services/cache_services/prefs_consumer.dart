@@ -28,6 +28,7 @@ class PrefsConsumer extends CacheServices {
       } else if (value is List<String>) {
         await _sharedPreferences.setStringList(key, value);
       } else {
+        log('Unknown value type');
         throw CacheExceptions('Unknown value type');
       }
     } catch (e) {
@@ -41,6 +42,12 @@ class PrefsConsumer extends CacheServices {
   @override
   dynamic getData({required String key}) {
     try {
+      if (!_sharedPreferences.containsKey(key)) {
+        log('Key not found');
+        print('jey is $key');
+        print(_sharedPreferences.getKeys());
+        return null;
+      }
       return _sharedPreferences.get(key);
     } catch (e) {
       log(e.toString());

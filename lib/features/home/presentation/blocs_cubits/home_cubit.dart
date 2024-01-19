@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/common/enums/enums.dart';
@@ -32,11 +33,15 @@ class HomeCubit extends Cubit<HomeState> {
       ),
     );
     posts.fold((l) {
-      emit(state.copyWith(requestStatus: RequestStatusEnum.error));
+      emit(state.copyWith(
+        requestStatus: RequestStatusEnum.error,
+        error: l.message,
+      ));
     }, (r) {
       emit(state.copyWith(
         requestStatus: RequestStatusEnum.loaded,
         posts: [...state.posts, ...r],
+        error: '',
       ));
     });
   }

@@ -18,7 +18,7 @@ class PostCardHeader extends StatelessWidget {
         // user avatar
         CircleAvatar(
           radius: 16.0,
-          backgroundImage: CachedNetworkImageProvider('${post.link}'),
+          backgroundImage: CachedNetworkImageProvider('${post.userAvatar}'),
           onBackgroundImageError: (exception, stackTrace) =>
               const Icon(Icons.error),
         ),

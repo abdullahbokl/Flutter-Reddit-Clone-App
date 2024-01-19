@@ -8,9 +8,9 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_dimensions.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/locale_keys.g.dart';
+import '../../../favourite/presentation/screens/favorite_screen.dart';
 import '../../../home/presentation/screens/home_screen.dart';
 import '../../../settings/presentation/screens/settings_screen.dart';
-import '../../../stars/presentation/screens/favorite_screen.dart';
 
 class NavBarScreen extends StatefulWidget {
   const NavBarScreen({super.key});

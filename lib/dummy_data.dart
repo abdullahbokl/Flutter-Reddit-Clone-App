@@ -73,7 +73,7 @@ List<PostModel> generateRandomPosts() {
       createdAt: DateTime.now().subtract(Duration(days: random.nextInt(30))),
       userName: 'User${index + 1}',
       commentCount: random.nextInt(20),
-      isFavourite: random.nextBool(),
+      isFavourite: true,
       upVotes: random.nextInt(50),
       downVotes: random.nextInt(10),
       uid: random.nextInt(100).toString(),
@@ -97,7 +97,7 @@ generateList() {
         post: randomPosts[cnt++].copyWith(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
     ));
-    if (cnt == randomPosts.length) {
+    if (cnt == 5) {
       timer.cancel();
     }
   });

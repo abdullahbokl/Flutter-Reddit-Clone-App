@@ -1,6 +1,10 @@
 abstract class AppStrings {
   /* Shared Preferences */
   static const String prefsThemeMode = 'theme_mode';
+  static const String prefsFavourite = 'favourite';
+  static const String prefsFavouriteName = 'name';
+  static const String prefsFavouriteImage = 'image';
+  static const String prefsFavouriteDescription = 'description';
 
   /* Firebase */
   static const firebaseUsersCollection = 'users';
