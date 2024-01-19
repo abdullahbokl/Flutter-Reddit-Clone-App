@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reddit_clone/features/home/presentation/widgets/post_card/post_card.dart';
 
 import '../../../../core/common/widgets/animated_display.dart';
 import '../../../../core/common/widgets/custom_app_bar.dart';
@@ -42,8 +43,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
           itemCount: state.posts.length,
           itemBuilder: (BuildContext context, int index) {
             final post = state.posts[index];
-            return ListTile(
-                title: Text(post.title), subtitle: Text(post.title));
+            return PostCard(post: post);
           },
         );
       },
