@@ -6,6 +6,12 @@ class AppAssets {
       'assets/fonts/ClashDisplay-Medium.ttf';
   static const String fontsSatoshiMedium = 'assets/fonts/Satoshi-Medium.ttf';
   static const String fontsTelmaMedium = 'assets/fonts/Telma-Medium.ttf';
+  static const String screenshotsImage1 = 'assets/screenshots/image1.png';
+  static const String screenshotsImage2 = 'assets/screenshots/image2.png';
+  static const String screenshotsImage3 = 'assets/screenshots/image3.png';
+  static const String screenshotsImage4 = 'assets/screenshots/image4.png';
+  static const String screenshotsImage5 = 'assets/screenshots/image5.png';
+  static const String screenshotsImage6 = 'assets/screenshots/image6.png';
   static const String translationsAr = 'assets/translations/ar.json';
   static const String translationsEn = 'assets/translations/en.json';
 }
