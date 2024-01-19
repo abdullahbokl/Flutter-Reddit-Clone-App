@@ -7,3 +7,5 @@ class EnumWithValues<T> {
 enum ThemeModesEnum { light, dark }
 
 enum ConnectivityStatusEnum { connected, disconnected, loading }
+
+enum RequestStatusEnum { initial, loading, loaded, error }
