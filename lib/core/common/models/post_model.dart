@@ -3,69 +3,73 @@ import 'package:equatable/equatable.dart';
 import '../../utils/app_strings.dart';
 
 class PostModel extends Equatable {
+  // post
   final String id;
   final String title;
   final String? link;
   final String? description;
-  final String communityName;
-  final String communityProfilePic;
-  final List<String> upvotes;
-  final List<String> downvotes;
+  final int? upVotes;
+  final int? downVotes;
   final int commentCount;
-  final String username;
-  final String uid;
-  final String type;
   final DateTime createdAt;
-  final List<String> awards;
+  final bool isFavourite;
+
+  // user
+  final String userName;
+  final String uid;
+  final String? userAvatar;
+
+  // community
+  final String? communityName;
 
   const PostModel({
     required this.id,
     required this.title,
     this.link,
     this.description,
-    required this.communityName,
-    required this.communityProfilePic,
-    required this.upvotes,
-    required this.downvotes,
+    required this.upVotes,
+    required this.downVotes,
     required this.commentCount,
-    required this.username,
+    required this.userName,
     required this.uid,
-    required this.type,
     required this.createdAt,
-    required this.awards,
+    required this.isFavourite,
+    this.userAvatar,
+    this.communityName,
   });
 
   PostModel copyWith({
+    // post
     String? id,
     String? title,
     String? link,
     String? description,
-    String? communityName,
-    String? communityProfilePic,
-    List<String>? upvotes,
-    List<String>? downvotes,
+    int? upVotes,
+    int? downVotes,
     int? commentCount,
+    bool? isFavourite,
+    DateTime? createdAt,
+    // user
     String? username,
     String? uid,
-    String? type,
-    DateTime? createdAt,
-    List<String>? awards,
+    String? userAvatar,
+    // community
+    String? communityName,
   }) {
     return PostModel(
       id: id ?? this.id,
       title: title ?? this.title,
       link: link ?? this.link,
       description: description ?? this.description,
-      communityName: communityName ?? this.communityName,
-      communityProfilePic: communityProfilePic ?? this.communityProfilePic,
-      upvotes: upvotes ?? this.upvotes,
-      downvotes: downvotes ?? this.downvotes,
+      upVotes: upVotes ?? this.upVotes,
+      downVotes: downVotes ?? this.downVotes,
       commentCount: commentCount ?? this.commentCount,
-      username: username ?? this.username,
+      userName: username ?? this.userName,
       uid: uid ?? this.uid,
-      type: type ?? this.type,
       createdAt: createdAt ?? this.createdAt,
-      awards: awards ?? this.awards,
+      isFavourite: isFavourite ?? this.isFavourite,
+      userAvatar: userAvatar ?? this.userAvatar,
+      communityName: communityName ?? this.communityName,
     );
   }
 
@@ -75,16 +79,15 @@ class PostModel extends Equatable {
       AppStrings.postModelTitle: title,
       AppStrings.postModelLink: link,
       AppStrings.postModelDescription: description,
-      AppStrings.postModelCommunityName: communityName,
-      AppStrings.postModelCommunityProfilePic: communityProfilePic,
-      AppStrings.postModelUpVotes: upvotes,
-      AppStrings.postModelDownVotes: downvotes,
+      AppStrings.postModelUpVotes: upVotes,
+      AppStrings.postModelDownVotes: downVotes,
       AppStrings.postModelCommentCount: commentCount,
-      AppStrings.postModelUsername: username,
+      AppStrings.postModelUsername: userName,
       AppStrings.postModelUid: uid,
-      AppStrings.postModelType: type,
       AppStrings.postModelCreatedAt: createdAt.millisecondsSinceEpoch,
-      AppStrings.postModelAwards: awards,
+      AppStrings.postModelIsFavourite: isFavourite,
+      AppStrings.postModelUserAvatar: userAvatar,
+      AppStrings.postModelCommunityName: communityName,
     };
   }
 
@@ -94,23 +97,17 @@ class PostModel extends Equatable {
       title: map[AppStrings.postModelTitle] ?? '',
       link: map[AppStrings.postModelLink],
       description: map[AppStrings.postModelDescription],
-      communityName: map[AppStrings.postModelCommunityName] ?? '',
-      communityProfilePic: map[AppStrings.postModelCommunityProfilePic] ?? '',
-      upvotes: List<String>.from(map[AppStrings.postModelUpVotes]),
-      downvotes: List<String>.from(map[AppStrings.postModelDownVotes]),
+      upVotes: map[AppStrings.postModelUpVotes] ?? 0,
+      downVotes: map[AppStrings.postModelDownVotes] ?? 0,
       commentCount: map[AppStrings.postModelCommentCount]?.toInt() ?? 0,
-      username: map[AppStrings.postModelUsername] ?? '',
+      userName: map[AppStrings.postModelUsername] ?? '',
       uid: map[AppStrings.postModelUid] ?? '',
-      type: map[AppStrings.postModelType] ?? '',
       createdAt: DateTime.fromMillisecondsSinceEpoch(
           map[AppStrings.postModelCreatedAt]),
-      awards: List<String>.from(map[AppStrings.postModelAwards]),
+      isFavourite: map[AppStrings.postModelIsFavourite] ?? false,
+      userAvatar: map[AppStrings.postModelUserAvatar],
+      communityName: map[AppStrings.postModelCommunityName],
     );
-  }
-
-  @override
-  String toString() {
-    return 'Post(id: $id, title: $title, link: $link, description: $description, communityName: $communityName, communityProfilePic: $communityProfilePic, upvotes: $upvotes, downvotes: $downvotes, commentCount: $commentCount, username: $username, uid: $uid, type: $type, createdAt: $createdAt, awards: $awards)';
   }
 
   @override
@@ -120,16 +117,15 @@ class PostModel extends Equatable {
       title,
       link,
       description,
-      communityName,
-      communityProfilePic,
-      upvotes,
-      downvotes,
+      upVotes,
+      downVotes,
       commentCount,
-      username,
+      userName,
       uid,
-      type,
       createdAt,
-      awards,
+      isFavourite,
+      userAvatar,
+      communityName,
     ];
   }
 }

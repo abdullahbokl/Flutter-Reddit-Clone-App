@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 
 import '../../../../core/common/models/post_model.dart';
 import '../../../../core/services/firebase_services/firestore_services.dart';
 import '../../../../core/utils/app_strings.dart';
+import '../models/fetch_posts_request_args.dart';
 import 'home_repo.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -11,20 +13,16 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl(this.firestoreServices);
 
   @override
-  Future<List<PostModel>> fetchPostsStream({
-    String? lastPostId,
-    int? limit,
-    String? orderBy,
-    bool? descending,
-    int? skip,
-  }) async {
+  Future<Either<FirebaseException, List<PostModel>>> fetchPosts(
+    FetchPostsRequestArgs? args,
+  ) async {
     try {
       final QuerySnapshot<Object?> res = await firestoreServices.getData(
         collectionName: AppStrings.firebasePostsCollection,
-        docId: lastPostId,
-        limit: limit,
-        orderBy: orderBy,
-        descending: descending,
+        docId: args?.lastPostId,
+        limit: args?.limit,
+        orderBy: args?.orderBy,
+        descending: args?.descending,
       );
 
       final List<PostModel> posts = res.docs
@@ -35,9 +33,23 @@ class HomeRepositoryImpl implements HomeRepository {
           )
           .toList();
 
-      return posts;
-    } on FirebaseException catch (_) {
-      rethrow;
+      return right(posts);
+    } on FirebaseException catch (e) {
+      return left(e);
+    }
+  }
+
+  @override
+  Future<Either<FirebaseException, PostModel>> addPost(PostModel post) async {
+    try {
+      final res = await firestoreServices.saveData(
+        collectionName: AppStrings.firebasePostsCollection,
+        docId: post.id,
+        data: post.toMap(),
+      );
+      return right(res);
+    } on FirebaseException catch (e) {
+      return left(e);
     }
   }
 }

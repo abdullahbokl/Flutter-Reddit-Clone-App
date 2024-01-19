@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../../common/models/post_model.dart';
+
 class FirestoreServices {
   final FirebaseFirestore firestore;
 
   FirestoreServices({required this.firestore});
 
-  Future<void> saveData({
+  Future<PostModel> saveData({
     required String collectionName,
     required String? docId,
     required Map<String, dynamic> data,
@@ -13,6 +15,9 @@ class FirestoreServices {
     try {
       docId ??= DateTime.now().millisecondsSinceEpoch.toString();
       await firestore.collection(collectionName).doc(docId).set(data);
+      return PostModel.fromMap(data).copyWith(
+          //   remote id if needed
+          );
     } on FirebaseException catch (_) {
       rethrow;
     } catch (e) {

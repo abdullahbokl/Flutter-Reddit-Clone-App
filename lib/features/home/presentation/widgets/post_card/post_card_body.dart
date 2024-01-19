@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:reddit_clone/core/utils/app_dimensions.dart';
 import 'package:reddit_clone/core/utils/app_styles.dart';
 
+import '../../../../../core/common/models/post_model.dart';
 import '../../../../../core/config/size_config.dart';
 
 class PostCardBody extends StatelessWidget {
-  const PostCardBody({super.key});
+  const PostCardBody({super.key, required this.post});
+
+  final PostModel post;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class PostCardBody extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Flutter is awesome!',
+          post.title,
           style: AppStyles.font16SatoshiBold(context).copyWith(
             fontSize: AppDimensions.getResponsiveFontSize(
               context,
@@ -24,7 +27,7 @@ class PostCardBody extends StatelessWidget {
         ),
         const SizedBox(height: 8.0),
         Text(
-          'Flutter is Google’s UI toolkit for building beautiful, natively compiled applications for mobile, web, and desktop from a single codebase.',
+          post.description ?? '',
           style: AppStyles.font16SatoshiBold(context).copyWith(
             color: Colors.grey,
             fontSize: AppDimensions.getResponsiveFontSize(
@@ -43,8 +46,7 @@ class PostCardBody extends StatelessWidget {
             borderRadius: BorderRadius.circular(15.0),
           ),
           child: CachedNetworkImage(
-            imageUrl:
-                "https://cdn.pixabay.com/photo/2015/09/16/08/55/online-942408_960_720.jpg",
+            imageUrl: post.link ?? '',
             fit: BoxFit.cover,
             placeholder: (context, url) => const Center(
               child: CircularProgressIndicator(),

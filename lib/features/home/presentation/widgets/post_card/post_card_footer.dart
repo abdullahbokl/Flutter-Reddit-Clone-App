@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:reddit_clone/core/utils/app_styles.dart';
+
+import '../../../../../core/common/models/post_model.dart';
+import '../../../../../core/utils/app_styles.dart';
 
 class PostCardFooter extends StatelessWidget {
-  const PostCardFooter({super.key});
+  const PostCardFooter({super.key, required this.post});
+
+  final PostModel post;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class PostCardFooter extends StatelessWidget {
               icon: const Icon(Icons.arrow_upward),
             ),
             Text(
-              '1.5k',
+              post.upVotes.toString(),
               style: AppStyles.font16SatoshiBold(context).copyWith(
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],
@@ -31,7 +35,7 @@ class PostCardFooter extends StatelessWidget {
               icon: const Icon(Icons.comment),
             ),
             Text(
-              '100',
+              "${post.commentCount}",
               style: AppStyles.font16SatoshiBold(context).copyWith(
                 fontWeight: FontWeight.w500,
                 color: Colors.grey[600],

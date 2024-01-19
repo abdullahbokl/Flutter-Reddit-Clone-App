@@ -13,14 +13,13 @@ abstract class AppStrings {
   static const String postModelTitle = 'title';
   static const String postModelLink = 'link';
   static const String postModelDescription = 'description';
-  static const String postModelCommunityName = 'communityName';
-  static const String postModelCommunityProfilePic = 'communityProfilePic';
   static const String postModelUpVotes = 'upvotes';
   static const String postModelDownVotes = 'downvotes';
   static const String postModelCommentCount = 'commentCount';
   static const String postModelUsername = 'username';
   static const String postModelUid = 'uid';
-  static const String postModelType = 'type';
   static const String postModelCreatedAt = 'createdAt';
-  static const String postModelAwards = 'awards';
+  static const String postModelIsFavourite = 'isFavourite';
+  static const String postModelUserAvatar = 'userAvatar';
+  static const String postModelCommunityName = 'communityName';
 }

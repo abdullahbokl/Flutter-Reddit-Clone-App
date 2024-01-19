@@ -15,14 +15,14 @@ class PostCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 18.0),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PostCardHeader(),
-          SizedBox(height: 8.0),
-          PostCardBody(),
-          SizedBox(height: 8.0),
-          PostCardFooter(),
+          PostCardHeader(post: post),
+          const SizedBox(height: 8.0),
+          PostCardBody(post: post),
+          const SizedBox(height: 8.0),
+          PostCardFooter(post: post),
         ],
       ),
     );

@@ -3,10 +3,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:reddit_clone/core/utils/app_styles.dart';
 
+import '../../../../../core/common/models/post_model.dart';
 import '../../../../../core/utils/app_dimensions.dart';
 
 class PostCardHeader extends StatelessWidget {
-  const PostCardHeader({super.key});
+  const PostCardHeader({super.key, required this.post});
+
+  final PostModel post;
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +18,7 @@ class PostCardHeader extends StatelessWidget {
         // user avatar
         CircleAvatar(
           radius: 16.0,
-          backgroundImage: const CachedNetworkImageProvider(
-            "https://cdn2.iconfinder.com/data/icons/ui-v-1-circular-glyph/48/UI_v.1-Circular-Glyph-20-512.png",
-          ),
+          backgroundImage: CachedNetworkImageProvider('${post.link}'),
           onBackgroundImageError: (exception, stackTrace) =>
               const Icon(Icons.error),
         ),
@@ -28,7 +29,7 @@ class PostCardHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'r/FlutterDev',
+                'r/${post.communityName}',
                 style: AppStyles.font16SatoshiBold(context).copyWith(
                   fontSize: AppDimensions.getResponsiveFontSize(
                     context,
@@ -45,13 +46,13 @@ class PostCardHeader extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'AbdulRafay',
+                    post.userName,
                     style: AppStyles.font16SatoshiBold(context).copyWith(
                       color: Colors.blue,
                     ),
                   ),
                   Text(
-                    ' 1 hour ago',
+                    ' ${DateTime.now().difference(post.createdAt).inHours} hours ago',
                     style: AppStyles.font16SatoshiBold(context).copyWith(
                       color: Colors.grey[600],
                     ),
