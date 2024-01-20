@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'core/common/models/post_model.dart';
 import 'core/utils/service_locator.dart';
-import 'features/home/presentation/blocs_cubits/home_cubit.dart';
+import 'features/home/presentation/blocs_cubits/posts_bloc/posts_bloc.dart';
 
 List<PostModel> generateRandomPosts() {
   final List<String> titles = [
@@ -93,7 +93,7 @@ generateList() {
   List<PostModel> randomPosts = generateRandomPosts();
   int cnt = 0;
   Timer.periodic(const Duration(seconds: 2), (timer) async {
-    await getIt<HomeCubit>().addPost(
+    await getIt<PostsBloc>().addPost(
         post: randomPosts[cnt++].copyWith(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
     ));

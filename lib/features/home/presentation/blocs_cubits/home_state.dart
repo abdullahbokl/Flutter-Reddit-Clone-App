@@ -1,32 +1,32 @@
-part of 'home_cubit.dart';
-
-class HomeState extends Equatable {
-  RequestStatusEnum requestStatus;
-  List<PostModel> posts;
-  bool isGuest;
-  String? errorMessage;
-
-  HomeState({
-    required this.requestStatus,
-    required this.posts,
-    required this.isGuest,
-    this.errorMessage,
-  });
-
-  HomeState copyWith({
-    RequestStatusEnum? requestStatus,
-    List<PostModel>? posts,
-    bool? isGuest,
-    String? error,
-  }) {
-    return HomeState(
-      requestStatus: requestStatus ?? this.requestStatus,
-      posts: posts ?? this.posts,
-      isGuest: isGuest ?? this.isGuest,
-      errorMessage: error ?? errorMessage,
-    );
-  }
-
-  @override
-  List<Object?> get props => [requestStatus, posts, isGuest, errorMessage];
-}
+// part of 'home_cubit.dart';
+//
+// class HomeState extends Equatable {
+//   final RequestStatusEnum status;
+//   final List<PostModel> posts;
+//   final String? errorMessage;
+//   final bool isLastPage;
+//
+//   const HomeState({
+//     required this.status,
+//     required this.posts,
+//     this.errorMessage,
+//     required this.isLastPage,
+//   });
+//
+//   HomeState copyWith({
+//     RequestStatusEnum? status,
+//     List<PostModel>? posts,
+//     String? error,
+//     bool? isLastPage,
+//   }) {
+//     return HomeState(
+//       status: status ?? this.status,
+//       posts: posts ?? this.posts,
+//       errorMessage: error ?? errorMessage,
+//       isLastPage: isLastPage ?? this.isLastPage,
+//     );
+//   }
+//
+//   @override
+//   List<Object?> get props => [status, posts, errorMessage];
+// }

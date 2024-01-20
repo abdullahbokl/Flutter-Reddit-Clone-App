@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../common/models/post_model.dart';
+import '../../utils/app_strings.dart';
 
 class FirestoreServices {
   final FirebaseFirestore firestore;
@@ -31,19 +32,29 @@ class FirestoreServices {
 
   Future getData({
     required String collectionName,
-    String? docId,
+    String? lastDocId,
     int? limit,
     String? orderBy,
     bool? descending,
   }) async {
+    final lastDoc = lastDocId != null
+        ? await firestore.collection(collectionName).doc(lastDocId).get()
+        : null;
     try {
-      final res = await firestore
-          .collection(collectionName)
-          .orderBy(orderBy ?? "id", descending: descending ?? false)
-          // .startAfter([docId ?? 0])
-          .limit(limit ?? 20)
-          .get();
-
+      final QuerySnapshot<Map<String, dynamic>> res = lastDoc == null
+          ? await firestore
+              .collection(collectionName)
+              .orderBy(orderBy ?? AppStrings.postModelId,
+                  descending: descending ?? false)
+              .limit(limit ?? 10)
+              .get()
+          : await firestore
+              .collection(collectionName)
+              .orderBy(orderBy ?? AppStrings.postModelId,
+                  descending: descending ?? false)
+              .startAfterDocument(lastDoc)
+              .limit(limit ?? 10)
+              .get();
       return res;
     } on FirebaseException catch (_) {
       rethrow;

@@ -8,7 +8,7 @@ import '../../../../core/common/widgets/custom_loading_indicator.dart';
 import '../../../../core/common/widgets/errors/request_error_widget.dart';
 import '../../../../core/utils/locale_keys.g.dart';
 import '../../../../core/utils/service_locator.dart';
-import '../blocs_cubits/home_cubit.dart';
+import '../blocs_cubits/posts_bloc/posts_bloc.dart';
 import '../widgets/home_screen_body.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<HomeCubit>(),
+      create: (context) => getIt<PostsBloc>(),
       child: Scaffold(
         appBar: CustomAppBar(
           title: LocaleKeys.home,
@@ -28,12 +28,13 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: BlocBuilder<HomeCubit, HomeState>(
+        body: BlocBuilder<PostsBloc, PostsState>(
+          // build the body only when the status is initial or error
+          buildWhen: (previous, current) => _buildWhen(current, previous),
           builder: (context, state) {
-            print("state.requestStatus  ${state.requestStatus}  ");
-            if (state.requestStatus == RequestStatusEnum.loading) {
+            if (state.status == RequestStatusEnum.initial) {
               return const CustomLoadingIndicator();
-            } else if (state.requestStatus == RequestStatusEnum.error) {
+            } else if (state.status == RequestStatusEnum.error) {
               return RequestErrorWidget(message: state.errorMessage ?? '');
             } else {
               return const AnimatedDisplay(
@@ -44,5 +45,12 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  bool _buildWhen(PostsState current, PostsState previous) {
+    return current.status == RequestStatusEnum.initial ||
+        previous.status == RequestStatusEnum.initial ||
+        previous.status == RequestStatusEnum.error ||
+        current.status == RequestStatusEnum.error;
   }
 }

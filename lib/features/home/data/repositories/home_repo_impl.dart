@@ -7,25 +7,27 @@ import '../../../../core/utils/app_strings.dart';
 import '../models/fetch_posts_request_args.dart';
 import 'home_repo.dart';
 
-class HomeRepositoryImpl implements HomeRepository {
+class HomeRepositoryImpl extends HomeRepository {
   final FirestoreServices firestoreServices;
 
   HomeRepositoryImpl(this.firestoreServices);
 
+  List<PostModel> _posts = [];
+
   @override
-  Future<Either<FirebaseException, List<PostModel>>> fetchPosts(
+  Future<void> fetchPosts(
     FetchPostsRequestArgs? args,
   ) async {
     try {
       final QuerySnapshot<Object?> res = await firestoreServices.getData(
         collectionName: AppStrings.firebasePostsCollection,
-        docId: args?.lastPostId,
+        lastDocId: args?.lastPostId,
         limit: args?.limit,
         orderBy: args?.orderBy,
         descending: args?.descending,
       );
 
-      final List<PostModel> posts = res.docs
+      _posts = res.docs
           .map(
             (e) => PostModel.fromMap(
               e.data() as Map<String, dynamic>,
@@ -33,9 +35,9 @@ class HomeRepositoryImpl implements HomeRepository {
           )
           .toList();
 
-      return right(posts);
+      addPostToStream(_posts);
     } on FirebaseException catch (e) {
-      return left(e);
+      addErrorToStream(e);
     }
   }
 
