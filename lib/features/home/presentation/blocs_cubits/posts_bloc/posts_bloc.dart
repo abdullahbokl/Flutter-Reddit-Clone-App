@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +47,12 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     FetchPostsEvent event,
     Emitter<PostsState> emit,
   ) async {
-    if (state.isMax) return;
+    if (!_canContinue()) {
+      return emit(state.copyWith(
+        status: RequestStatusEnum.loaded,
+        isMax: true,
+      ));
+    }
     if (state.status != RequestStatusEnum.initial) {
       emit(state.copyWith(status: RequestStatusEnum.loading));
     }
@@ -58,6 +64,15 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
         lastPostId: state.posts.isNotEmpty ? state.posts.last.id : null,
       ),
     );
+  }
+
+  bool _canContinue() {
+    if (state.isMax) return false;
+    if (getIt<ConnectivityResult>() == ConnectivityResult.none &&
+        state.posts.isNotEmpty) {
+      return false;
+    }
+    return true;
   }
 
   Future<void> _onAddPostEvent(

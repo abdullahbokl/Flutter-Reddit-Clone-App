@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit_clone/core/common/widgets/errors/request_error_widget.dart';
@@ -22,20 +23,23 @@ class FavoriteScreen extends StatelessWidget {
         appBar: const CustomAppBar(
           title: LocaleKeys.favorites,
         ),
-        body: BlocBuilder<FavouritesCubit, FavouritesState>(
-          buildWhen: (previous, current) => previous.status != current.status,
-          builder: (context, state) {
-            if (state.status == RequestStatusEnum.loading) {
-              return const CustomLoadingIndicator();
-            } else if (state.status == RequestStatusEnum.error) {
-              return RequestErrorWidget(message: state.errorMessage);
-            } else {
-              return const AnimatedDisplay(
-                child: FavoriteScreenBody(),
-              );
-            }
-          },
-        ),
+        body: getIt<ConnectivityResult>() == ConnectivityResult.none
+            ? const RequestErrorWidget(message: 'No Internet Connection')
+            : BlocBuilder<FavouritesCubit, FavouritesState>(
+                buildWhen: (previous, current) =>
+                    previous.status != current.status,
+                builder: (context, state) {
+                  if (state.status == RequestStatusEnum.loading) {
+                    return const CustomLoadingIndicator();
+                  } else if (state.status == RequestStatusEnum.error) {
+                    return RequestErrorWidget(message: state.errorMessage);
+                  } else {
+                    return const AnimatedDisplay(
+                      child: FavoriteScreenBody(),
+                    );
+                  }
+                },
+              ),
       ),
     );
   }

@@ -31,16 +31,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<PostsBloc, PostsState>(
-      listener: (context, state) {
-        if (state.status == RequestStatusEnum.error) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errorMessage!),
-            ),
-          );
-        }
-      },
+    return BlocBuilder<PostsBloc, PostsState>(
       buildWhen: (previous, current) => _buildWhen(current, previous),
       builder: (context, state) {
         return ListView.builder(
@@ -58,6 +49,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   bool _buildWhen(PostsState current, PostsState previous) {
     return current.status == RequestStatusEnum.loading ||
-        previous.status == RequestStatusEnum.loading;
+        previous.status == RequestStatusEnum.loading ||
+        previous.isMax != current.isMax;
   }
 }

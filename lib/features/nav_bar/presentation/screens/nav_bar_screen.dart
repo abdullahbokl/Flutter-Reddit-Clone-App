@@ -73,6 +73,7 @@ class _NavBarScreenState extends State<NavBarScreen> {
           curve: Curves.ease,
           duration: Duration(milliseconds: 200),
         ),
+        // bottomScreenMargin: 0.0, // enable it to show items behind navbar
       ),
     );
   }

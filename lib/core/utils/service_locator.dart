@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:reddit_clone/features/home/presentation/blocs_cubits/posts_bloc/posts_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,12 +18,13 @@ final getIt = GetIt.instance;
 
 Future<void> initServiceLocator() async {
   // instances
-  final prefs = await SharedPreferences.getInstance();
 
-  getIt.registerLazySingleton<SharedPreferences>(() => prefs);
+  getIt.registerSingletonAsync<SharedPreferences>(
+      () async => await SharedPreferences.getInstance());
+  getIt.registerSingletonAsync<ConnectivityResult>(
+      () async => await Connectivity().checkConnectivity());
 
   await getIt.allReady();
-  // await prefs.clear();
 
   // services
   getIt.registerLazySingleton<CacheServices>(
