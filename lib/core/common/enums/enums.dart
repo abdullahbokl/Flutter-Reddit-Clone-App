@@ -4,6 +4,8 @@ class EnumWithValues<T> {
   const EnumWithValues(this.value);
 }
 
+enum LocalEnum { en, ar }
+
 enum ThemeModesEnum { light, dark }
 
 enum ConnectivityStatusEnum { connected, disconnected, loading }

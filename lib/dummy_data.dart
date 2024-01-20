@@ -93,10 +93,10 @@ generateList() {
   List<PostModel> randomPosts = generateRandomPosts();
   int cnt = 0;
   Timer.periodic(const Duration(seconds: 2), (timer) async {
-    await getIt<PostsBloc>().addPost(
-        post: randomPosts[cnt++].copyWith(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
+    getIt<PostsBloc>().add(AddPostEvent(
+      post: randomPosts[cnt++],
     ));
+    print("post added");
     if (cnt == 5) {
       timer.cancel();
     }

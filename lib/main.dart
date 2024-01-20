@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/common/blocs_cubits/bloc_observer.dart';
 import 'core/common/blocs_cubits/theme/theme_cubit.dart';
+import 'core/common/enums/enums.dart';
 import 'core/utils/service_locator.dart';
 import 'firebase_options.dart';
 import 'my_app.dart';
@@ -15,9 +16,10 @@ Future<void> main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('ar')],
+      supportedLocales:
+          LocalEnum.values.asNameMap().keys.map((e) => Locale(e)).toList(),
       path: 'assets/translations',
-      fallbackLocale: const Locale('en'),
+      fallbackLocale: Locale(LocalEnum.en.toString()),
       saveLocale: true,
       child: MultiBlocProvider(
         providers: [
@@ -34,4 +36,6 @@ Future<void> _setupApp() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   await initServiceLocator();
+//   clear firestore
+//   await FirebaseFirestore.instance.clearPersistence();
 }

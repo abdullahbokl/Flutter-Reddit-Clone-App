@@ -44,6 +44,7 @@ class FavouritesCubit extends Cubit<FavouritesState> {
   }
 
   void fetchFavourites() {
+    return;
     favouriteRepo.fetchFavourites().then((value) {
       value.fold(
         (l) => emit(state.copyWith(status: RequestStatusEnum.error)),

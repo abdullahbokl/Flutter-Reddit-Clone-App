@@ -17,13 +17,13 @@ class PostsState extends Equatable {
     RequestStatusEnum? status,
     List<PostModel>? posts,
     String? error,
-    bool? isLastPage,
+    bool? isNoMoreData,
   }) {
     return PostsState(
       status: status ?? this.status,
       posts: posts ?? this.posts,
       errorMessage: error ?? errorMessage,
-      isNoMoreData: isLastPage ?? this.isNoMoreData,
+      isNoMoreData: isNoMoreData ?? this.isNoMoreData,
     );
   }
 

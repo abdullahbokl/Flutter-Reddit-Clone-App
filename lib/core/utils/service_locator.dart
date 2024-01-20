@@ -22,6 +22,8 @@ Future<void> initServiceLocator() async {
   getIt.registerLazySingleton<SharedPreferences>(() => prefs);
 
   await getIt.allReady();
+  // await prefs.clear();
+
   // services
   getIt.registerLazySingleton<CacheServices>(
     () => PrefsConsumer(getIt()),
@@ -34,7 +36,10 @@ Future<void> initServiceLocator() async {
 
   // repositories
   getIt.registerLazySingleton<HomeRepository>(
-    () => HomeRepositoryImpl(getIt()),
+    () => HomeRepositoryImpl(
+      getIt(),
+      getIt(),
+    ),
   );
   getIt.registerLazySingleton<FavouriteRepo>(
     () => FavouriteRepoImpl(getIt(), getIt()),

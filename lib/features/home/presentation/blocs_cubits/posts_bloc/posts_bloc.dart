@@ -17,8 +17,7 @@ part 'posts_state.dart';
 
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final HomeRepository _homeRepository;
-  late final StreamSubscription _subscription;
-  final scrollController = ScrollController();
+  late final StreamSubscription<List<PostModel>> _subscription;
 
   PostsBloc()
       : _homeRepository = getIt<HomeRepository>(),
@@ -28,21 +27,16 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           isNoMoreData: false,
           errorMessage: null,
         )) {
-    // _initializeSubscriptions();
+    _subscription = _homeRepository.posts.listen((posts) {});
+    // transformer for infinite scroll >> debounce time
     on<FetchPostsEvent>(_onFetchPostsEvent, transformer: droppable());
-    // on<AddPostEvent>(_onAddPostEvent, transformer: sequential());
+    on<AddPostEvent>(_onAddPostEvent, transformer: sequential());
   }
 
-  // void _scrollingSubscription() {
-  //   scrollController.addListener(() {
-  //     if (scrollController.position.pixels >=
-  //         scrollController.position.maxScrollExtent - 100) {
-  //       _onFetchPostsEvent();
-  //     }
-  //   });
-  // }
-
-  _onFetchPostsEvent(FetchPostsEvent event, Emitter<PostsState> emit) async {
+  _onFetchPostsEvent(
+    FetchPostsEvent event,
+    Emitter<PostsState> emit,
+  ) async {
     if (state.isNoMoreData) return;
     if (state.status != RequestStatusEnum.initial) {
       emit(state.copyWith(status: RequestStatusEnum.loading));
@@ -52,12 +46,38 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       FetchPostsRequestArgs(
         limit: 5,
         descending: false,
-        skip: state.posts.length,
         orderBy: AppStrings.postModelId,
         lastPostId: state.posts.isNotEmpty ? state.posts.last.id : null,
       ),
     );
 
+    _subscription.onData((data) {
+      emit(state.copyWith(
+        status: RequestStatusEnum.loaded,
+        posts: data,
+        isNoMoreData: data.isEmpty,
+      ));
+    });
+    await emit.onEach(_subscription.asFuture().asStream(), onData: (data) {
+      emit(state.copyWith(
+        status: RequestStatusEnum.loaded,
+        posts: data,
+        isNoMoreData: data.isEmpty,
+      ));
+    }, onError: (error, stackTrace) {
+      emit(state.copyWith(
+        status: RequestStatusEnum.error,
+        error: error.toString(),
+      ));
+    });
+  }
+
+  Future<void> _onAddPostEvent(
+    AddPostEvent event,
+    Emitter<PostsState> emit,
+  ) async {
+    emit(state.copyWith(status: RequestStatusEnum.loading));
+    await _homeRepository.addPost(event.post);
     await emit.forEach(
       _homeRepository.posts,
       onData: (data) => state.copyWith(
@@ -71,24 +91,10 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     );
   }
 
-  Future<void> addPost({required PostModel post}) async {
-    // emit(state.copyWith(status: RequestStatusEnum.loading));
-    // final res = await homeRepository.addPost(post);
-    // res.fold((l) {
-    //   emit(state.copyWith(status: RequestStatusEnum.error));
-    // }, (r) {
-    //   emit(state.copyWith(
-    //     status: RequestStatusEnum.loaded,
-    //     posts: [...state.posts, r],
-    //   ));
-    // });
-  }
-
   @override
   Future<void> close() {
     _homeRepository.dispose();
-    _subscription.cancel();
-    scrollController.dispose();
+    // _subscription.cancel();
     return super.close();
   }
 }

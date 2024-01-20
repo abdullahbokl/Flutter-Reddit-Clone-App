@@ -1,5 +1,5 @@
 abstract class CacheServices {
-  dynamic saveData({
+  Future<dynamic> saveData({
     String? boxName,
     required String key,
     required dynamic value,

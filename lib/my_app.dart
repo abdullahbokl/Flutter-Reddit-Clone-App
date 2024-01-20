@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     SizeConfig.init(context);
     return BlocBuilder<ThemeCubit, ThemeState>(
       builder: (context, state) {
+        // generateList();
         return ConnectivityAppWrapper(
           app: MaterialApp(
             debugShowCheckedModeBanner: false,
