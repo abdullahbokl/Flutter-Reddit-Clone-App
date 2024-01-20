@@ -45,13 +45,13 @@ class FirestoreServices {
           ? await firestore
               .collection(collectionName)
               .orderBy(orderBy ?? AppStrings.postModelId,
-                  descending: descending ?? false)
+                  descending: descending ?? true)
               .limit(limit ?? 10)
               .get()
           : await firestore
               .collection(collectionName)
               .orderBy(orderBy ?? AppStrings.postModelId,
-                  descending: descending ?? false)
+                  descending: descending ?? true)
               .startAfterDocument(lastDoc)
               .limit(limit ?? 10)
               .get();

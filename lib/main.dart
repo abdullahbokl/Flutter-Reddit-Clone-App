@@ -36,6 +36,13 @@ Future<void> _setupApp() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   await initServiceLocator();
-//   clear firestore
-//   await FirebaseFirestore.instance.clearPersistence();
+//   remove first 40 doc from AppStrings.firebasePostsCollection from firestore
+//   await FirebaseFirestore.instance
+//       .collection(AppStrings.firebasePostsCollection)
+//       .get()
+//       .then((value) {
+//     for (var i = 0; i < 40; i++) {
+//       value.docs[i].reference.delete();
+//     }
+//   });
 }

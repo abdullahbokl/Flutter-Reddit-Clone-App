@@ -17,18 +17,27 @@ part 'posts_state.dart';
 
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final HomeRepository _homeRepository;
-  late final StreamSubscription<List<PostModel>> _subscription;
 
   PostsBloc()
       : _homeRepository = getIt<HomeRepository>(),
         super(const PostsState(
           posts: [],
           status: RequestStatusEnum.initial,
-          isNoMoreData: false,
+          isMax: false,
           errorMessage: null,
         )) {
-    _subscription = _homeRepository.posts.listen((posts) {});
-    // transformer for infinite scroll >> debounce time
+    _homeRepository.posts.listen((posts) {
+      emit(state.copyWith(
+        posts: [...state.posts, ...posts],
+        status: RequestStatusEnum.loaded,
+        isMax: posts.isEmpty,
+      ));
+    }, onError: (error, stackTrace) {
+      emit(state.copyWith(
+        status: RequestStatusEnum.error,
+        error: error.toString(),
+      ));
+    });
     on<FetchPostsEvent>(_onFetchPostsEvent, transformer: droppable());
     on<AddPostEvent>(_onAddPostEvent, transformer: sequential());
   }
@@ -37,39 +46,18 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     FetchPostsEvent event,
     Emitter<PostsState> emit,
   ) async {
-    if (state.isNoMoreData) return;
+    if (state.isMax) return;
     if (state.status != RequestStatusEnum.initial) {
       emit(state.copyWith(status: RequestStatusEnum.loading));
     }
-
     await getIt<HomeRepository>().fetchPosts(
       FetchPostsRequestArgs(
         limit: 5,
-        descending: false,
+        descending: true,
         orderBy: AppStrings.postModelId,
         lastPostId: state.posts.isNotEmpty ? state.posts.last.id : null,
       ),
     );
-
-    _subscription.onData((data) {
-      emit(state.copyWith(
-        status: RequestStatusEnum.loaded,
-        posts: data,
-        isNoMoreData: data.isEmpty,
-      ));
-    });
-    await emit.onEach(_subscription.asFuture().asStream(), onData: (data) {
-      emit(state.copyWith(
-        status: RequestStatusEnum.loaded,
-        posts: data,
-        isNoMoreData: data.isEmpty,
-      ));
-    }, onError: (error, stackTrace) {
-      emit(state.copyWith(
-        status: RequestStatusEnum.error,
-        error: error.toString(),
-      ));
-    });
   }
 
   Future<void> _onAddPostEvent(
@@ -94,7 +82,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   @override
   Future<void> close() {
     _homeRepository.dispose();
-    // _subscription.cancel();
     return super.close();
   }
 }

@@ -9,7 +9,7 @@ import '../models/fetch_posts_request_args.dart';
 abstract class HomeRepository {
   final _controller = StreamController<List<PostModel>>.broadcast();
 
-  Stream<List<PostModel>> get posts => _controller.stream.asBroadcastStream();
+  Stream<List<PostModel>> get posts => _controller.stream;
 
   @protected
   void addPostsToStream(List<PostModel> posts) => _controller.sink.add(posts);

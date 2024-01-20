@@ -13,8 +13,6 @@ class HomeRepositoryImpl extends HomeRepository {
 
   HomeRepositoryImpl(this.firestoreServices, this.cacheServices);
 
-  List<PostModel> _posts = [];
-
   @override
   Future<void> fetchPosts(
     FetchPostsRequestArgs? args,
@@ -44,7 +42,7 @@ class HomeRepositoryImpl extends HomeRepository {
         descending: args?.descending,
       );
 
-      _posts = res.docs
+      final newPosts = res.docs
           .map(
             (e) => PostModel.fromMap(
               e.data() as Map<String, dynamic>,
@@ -52,7 +50,7 @@ class HomeRepositoryImpl extends HomeRepository {
           )
           .toList();
 
-      addPostsToStream(_posts);
+      addPostsToStream(newPosts);
     } on FirebaseException catch (e) {
       addErrorToStream(e);
     }
@@ -60,7 +58,6 @@ class HomeRepositoryImpl extends HomeRepository {
 
   @override
   Future<void> addPost(PostModel post) async {
-    _posts.add(post);
     try {
       // await firestoreServices.saveData(
       //   collectionName: AppStrings.firebasePostsCollection,
@@ -88,7 +85,7 @@ class HomeRepositoryImpl extends HomeRepository {
       //     ],
       //   );
 
-      addPostsToStream(_posts);
+      addPostsToStream([post]);
     } on FirebaseException catch (e) {
       addErrorToStream(e);
     }
