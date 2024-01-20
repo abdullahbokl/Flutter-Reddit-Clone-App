@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit_clone/core/utils/service_locator.dart';
-import 'package:reddit_clone/features/nav_bar/data/repositories/favourtie_repo.dart';
+import 'package:reddit_clone/features/favourite/data/repositories/favourtie_repo.dart';
 
 import '../../../../core/common/enums/enums.dart';
 import '../../data/models/favourite_model.dart';
@@ -29,11 +29,16 @@ class FavouritesCubit extends Cubit<FavouritesState> {
   }
 
   void removeFavourite(FavouriteModel post) {
+    emit(state.copyWith(status: RequestStatusEnum.loading));
     favouriteRepo.removeFavourite(post).then((value) {
-      state.favourites.removeWhere((element) => element.id == post.id);
+      final List<FavouriteModel> favourites = state.favourites;
+      favourites.removeWhere((element) => element.id == post.id);
       value.fold(
         (l) => emit(state.copyWith(status: RequestStatusEnum.error)),
-        (r) => emit(state.copyWith(status: RequestStatusEnum.loaded)),
+        (r) => emit(state.copyWith(
+          status: RequestStatusEnum.loaded,
+          favourites: favourites,
+        )),
       );
     });
   }

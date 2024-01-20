@@ -8,7 +8,7 @@ import '../../../../core/common/widgets/custom_app_bar.dart';
 import '../../../../core/common/widgets/custom_loading_indicator.dart';
 import '../../../../core/utils/locale_keys.g.dart';
 import '../../../../core/utils/service_locator.dart';
-import '../../../nav_bar/presentation/blocs_cubits/favourites_cubit.dart';
+import '../blocs_cubits/favourites_cubit.dart';
 import '../widgets/favorite_screen_body.dart';
 
 class FavoriteScreen extends StatelessWidget {
@@ -23,6 +23,7 @@ class FavoriteScreen extends StatelessWidget {
           title: LocaleKeys.favorites,
         ),
         body: BlocBuilder<FavouritesCubit, FavouritesState>(
+          buildWhen: (previous, current) => previous.status != current.status,
           builder: (context, state) {
             if (state.status == RequestStatusEnum.loading) {
               return const CustomLoadingIndicator();

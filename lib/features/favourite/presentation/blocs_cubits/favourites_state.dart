@@ -16,6 +16,8 @@ class FavouritesState extends Equatable {
     RequestStatusEnum? status,
     String? errorMessage,
   }) {
+    print(favourites?.length);
+    print(this.favourites.length);
     return FavouritesState(
       favourites: favourites ?? this.favourites,
       status: status ?? this.status,

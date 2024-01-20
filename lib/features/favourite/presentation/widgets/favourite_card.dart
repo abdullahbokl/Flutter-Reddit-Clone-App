@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/service_locator.dart';
-import '../../../nav_bar/data/models/favourite_model.dart';
-import '../../../nav_bar/presentation/blocs_cubits/favourites_cubit.dart';
+import '../../data/models/favourite_model.dart';
+import '../blocs_cubits/favourites_cubit.dart';
 
 class FavouriteCard extends StatelessWidget {
   const FavouriteCard({super.key, required this.post});
