@@ -8,6 +8,7 @@ import '../../../../core/common/widgets/custom_loading_indicator.dart';
 import '../../../../core/common/widgets/errors/request_error_widget.dart';
 import '../../../../core/utils/locale_keys.g.dart';
 import '../../../../core/utils/service_locator.dart';
+import '../../../../dummy_data.dart';
 import '../blocs_cubits/posts_bloc/posts_bloc.dart';
 import '../widgets/home_screen_body.dart';
 
@@ -23,7 +24,9 @@ class HomeScreen extends StatelessWidget {
           title: LocaleKeys.home,
           actions: [
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                generateList();
+              },
               icon: const Icon(Icons.add_circle_rounded),
             ),
           ],

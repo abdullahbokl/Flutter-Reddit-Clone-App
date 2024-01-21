@@ -27,22 +27,57 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
           isMax: false,
           errorMessage: null,
         )) {
-    _homeRepository.posts.listen((posts) {
-      emit(state.copyWith(
-        posts: [...state.posts, ...posts],
-        status: RequestStatusEnum.loaded,
-        isMax: posts.isEmpty,
-      ));
-    }, onError: (error, stackTrace) {
-      emit(state.copyWith(
-        status: RequestStatusEnum.error,
-        error: error.toString(),
-      ));
-    });
+    _handleListeners();
     on<FetchPostsEvent>(_onFetchPostsEvent, transformer: droppable());
     on<AddPostEvent>(_onAddPostEvent, transformer: sequential());
   }
 
+  /* bloc listeners */
+  void _handleListeners() {
+    _homeRepository.multiPosts.listen((posts) {
+      _onMultiPostsData(posts);
+    }, onError: (error, stackTrace) {
+      _onMultiPostsError(error);
+    });
+    _homeRepository.singlePost.listen((post) {
+      _onSinglePostData(post);
+    }, onError: (error, stackTrace) {
+      _onSinlePostError(error);
+    });
+  }
+
+  void _onSinglePostData(PostModel post) {
+    emit(state.copyWith(
+      posts: [post, ...state.posts],
+      status: RequestStatusEnum.loaded,
+    ));
+  }
+
+  void _onSinlePostError(error) {
+    emit(state.copyWith(
+      status: RequestStatusEnum.error,
+      error: error.toString(),
+    ));
+  }
+
+  void _onMultiPostsError(error) {
+    _onSinlePostError(error);
+  }
+
+  void _onMultiPostsData(List<PostModel> posts) {
+    bool isMax = state.isMax;
+    if (posts.isEmpty) {
+      isMax = true;
+    }
+
+    emit(state.copyWith(
+      posts: [...state.posts, ...posts],
+      status: RequestStatusEnum.loaded,
+      isMax: isMax,
+    ));
+  }
+
+  /* bloc events */
   _onFetchPostsEvent(
     FetchPostsEvent event,
     Emitter<PostsState> emit,
@@ -81,17 +116,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   ) async {
     emit(state.copyWith(status: RequestStatusEnum.loading));
     await _homeRepository.addPost(event.post);
-    await emit.forEach(
-      _homeRepository.posts,
-      onData: (data) => state.copyWith(
-        status: RequestStatusEnum.loaded,
-        posts: data,
-      ),
-      onError: (error, stackTrace) => state.copyWith(
-        status: RequestStatusEnum.error,
-        error: error.toString(),
-      ),
-    );
   }
 
   @override

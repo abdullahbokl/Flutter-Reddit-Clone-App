@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'core/common/models/post_model.dart';
@@ -92,13 +91,13 @@ List<PostModel> generateRandomPosts() {
 generateList() {
   List<PostModel> randomPosts = generateRandomPosts();
   int cnt = 0;
-  Timer.periodic(const Duration(seconds: 2), (timer) async {
-    getIt<PostsBloc>().add(AddPostEvent(
-      post: randomPosts[cnt++],
-    ));
-    print("post added");
-    if (cnt == 5) {
-      timer.cancel();
-    }
-  });
+  getIt<PostsBloc>().add(AddPostEvent(
+    post: randomPosts[cnt++],
+  ));
+  // Timer.periodic(const Duration(seconds: 2), (timer) async {
+  //   print("post added");
+  //   if (cnt == 1) {
+  //     timer.cancel();
+  //   }
+  // });
 }

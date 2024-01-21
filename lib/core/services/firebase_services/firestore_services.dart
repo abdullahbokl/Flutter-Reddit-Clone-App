@@ -30,8 +30,27 @@ class FirestoreServices {
     }
   }
 
+  Future<bool> checkIfDocIsExisted({
+    required String collectionName,
+    required String docId,
+  }) async {
+    try {
+      final res = await firestore.collection(collectionName).doc(docId).get();
+      return res.exists;
+    } on FirebaseException catch (_) {
+      rethrow;
+    } catch (e) {
+      throw FirebaseException(
+        plugin: 'FirestoreServices',
+        message: e.toString(),
+        code: '500', // 500 is the default code for all unknown errors
+      );
+    }
+  }
+
   Future getData({
     required String collectionName,
+    String? docId,
     String? lastDocId,
     int? limit,
     String? orderBy,

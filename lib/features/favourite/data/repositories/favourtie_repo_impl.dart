@@ -70,6 +70,7 @@ class FavouriteRepoImpl implements FavouriteRepo {
   @override
   Future<Either<CacheExceptions, List<FavouriteModel>>>
       fetchFavourites() async {
+    throw UnimplementedError();
     try {
       List<FavouriteModel> favourites = _fetchCachedFavourites();
       if (favourites.isEmpty) {

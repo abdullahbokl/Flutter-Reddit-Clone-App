@@ -29,11 +29,44 @@ class HomeRepositoryImpl extends HomeRepository {
         newPosts = await _fetchDataFromFirestore(args);
         _cachePosts(newPosts);
       }
-      addPostsToStream(newPosts);
+      addMultiPostsToStream(newPosts);
     } on FirebaseException catch (e) {
-      addErrorToStream(e);
+      addErrorToMultiStream(e);
     } catch (e) {
-      addErrorToStream(FirebaseException(plugin: '', message: e.toString()));
+      addErrorToMultiStream(
+          FirebaseException(plugin: '', message: e.toString()));
+    }
+  }
+
+  @override
+  Future<void> addPost(PostModel post) async {
+    final List<PostModel> posts = await _fetchCachedData();
+    posts.insert(0, post);
+    if (posts.length > 20) {
+      posts.removeRange(20, posts.length);
+    }
+    final listOfMaps = posts.map((e) => e.toMap()).toList();
+    final List<String> list = listOfMaps.map((e) => jsonEncode(e)).toList();
+
+    try {
+      await Future.wait(
+        [
+          cacheServices.saveData(
+            key: AppStrings.prefsFavourite,
+            value: list,
+          ),
+          // save to firestore
+          firestoreServices.saveData(
+            collectionName: AppStrings.firebasePostsCollection,
+            docId: post.id,
+            data: post.toMap(),
+          ),
+        ],
+      );
+
+      addSinglePostToStream(post);
+    } on FirebaseException catch (e) {
+      addErrorToSingleStream(e);
     }
   }
 
@@ -95,38 +128,31 @@ class HomeRepositoryImpl extends HomeRepository {
     );
   }
 
-  @override
-  Future<void> addPost(PostModel post) async {
-    try {
-      // await firestoreServices.saveData(
-      //   collectionName: AppStrings.firebasePostsCollection,
-      //   docId: post.id,
-      //   data: post.toMap(),
-      // );
+//   save data to firestore using firestoreServices
+  Future<void> _saveDataToFirestore(List<PostModel> newPosts) async {
+    await Future.wait(
+      newPosts.map(
+        (e) => firestoreServices.saveData(
+          collectionName: AppStrings.firebasePostsCollection,
+          docId: e.id,
+          data: e.toMap(),
+        ),
+      ),
+    );
+  }
 
-      // final listOfMaps = _posts.map((e) => e.toMap()).toList();
-      // final List<String> list = listOfMaps.map((e) => jsonEncode(e)).toList();
-      //
-      // try {
-      //   // cache
-      //   await Future.wait(
-      //     [
-      //       cacheServices.saveData(
-      //         key: AppStrings.prefsFavourite,
-      //         value: list,
-      //       ),
-      //       // save to firestore
-      //       firestoreServices.saveData(
-      //         collectionName: AppStrings.firebasePostsCollection,
-      //         docId: post.id,
-      //         data: post.toMap(),
-      //       ),
-      //     ],
-      //   );
-
-      addPostsToStream([post]);
-    } on FirebaseException catch (e) {
-      addErrorToStream(e);
-    }
+  Future<bool> _checkIfDocIsExisted(String id) async {
+    return await firestoreServices.checkIfDocIsExisted(
+      collectionName: AppStrings.firebasePostsCollection,
+      docId: id,
+    );
+    // final res = await firestoreServices.getData(
+    //   collectionName: AppStrings.firebasePostsCollection,
+    //   docId: id,
+    // );
+    // final data = res.docs.map((e) => e.data()).toList();
+    // final posts = data.map((e) => PostModel.fromMap(e)).toList();
+    //
+    // return posts;
   }
 }

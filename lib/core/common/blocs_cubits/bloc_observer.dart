@@ -14,11 +14,11 @@ class MyBlocObserver extends BlocObserver {
     debugPrint('onEvent -- ${bloc.runtimeType}, $event');
   }
 
-  @override
-  void onChange(BlocBase bloc, Change change) {
-    super.onChange(bloc, change);
-    debugPrint('onChange -- ${bloc.runtimeType}, $change');
-  }
+  // @override
+  // void onChange(BlocBase bloc, Change change) {
+  //   super.onChange(bloc, change);
+  //   debugPrint('onChange -- ${bloc.runtimeType}, $change');
+  // }
 
   // @override
   // void onTransition(Bloc bloc, Transition transition) {

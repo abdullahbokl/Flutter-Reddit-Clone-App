@@ -7,18 +7,35 @@ import '../../../../core/common/models/post_model.dart';
 import '../models/fetch_posts_request_args.dart';
 
 abstract class HomeRepository {
-  final _controller = StreamController<List<PostModel>>.broadcast();
+  // multi posts
+  final _multiPostsController = StreamController<List<PostModel>>.broadcast();
 
-  Stream<List<PostModel>> get posts => _controller.stream;
-
-  @protected
-  void addPostsToStream(List<PostModel> posts) => _controller.sink.add(posts);
+  Stream<List<PostModel>> get multiPosts => _multiPostsController.stream;
 
   @protected
-  void addErrorToStream(FirebaseException error) =>
-      _controller.sink.addError(error);
+  void addMultiPostsToStream(List<PostModel> posts) =>
+      _multiPostsController.sink.add(posts);
 
-  void dispose() => _controller.close();
+  @protected
+  void addErrorToMultiStream(FirebaseException error) =>
+      _multiPostsController.sink.addError(error);
+
+  void dispose() => _multiPostsController.close();
+
+  // single post
+  final _singlePostController = StreamController<PostModel>.broadcast();
+
+  Stream<PostModel> get singlePost => _singlePostController.stream;
+
+  @protected
+  void addSinglePostToStream(PostModel post) =>
+      _singlePostController.sink.add(post);
+
+  @protected
+  void addErrorToSingleStream(FirebaseException error) =>
+      _singlePostController.sink.addError(error);
+
+  void disposePost() => _singlePostController.close();
 
   Future<void> fetchPosts(
     FetchPostsRequestArgs? args,
